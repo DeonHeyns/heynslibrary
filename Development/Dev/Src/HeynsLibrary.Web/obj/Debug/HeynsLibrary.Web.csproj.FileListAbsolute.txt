@@ -1,0 +1,7 @@
+c:\projects\heynslibrary\Development\Dev\Src\HeynsLibrary.Web\bin\Debug\HeynsLibrary.Web.dll
+c:\projects\heynslibrary\Development\Dev\Src\HeynsLibrary.Web\bin\Debug\HeynsLibrary.Web.pdb
+c:\projects\heynslibrary\Development\Dev\Src\HeynsLibrary.Web\bin\Debug\HeynsLibrary.dll
+c:\projects\heynslibrary\Development\Dev\Src\HeynsLibrary.Web\bin\Debug\HeynsLibrary.pdb
+c:\projects\heynslibrary\Development\Dev\Src\HeynsLibrary.Web\obj\Debug\HeynsLibrary.Web.csprojResolveAssemblyReference.cache
+c:\projects\heynslibrary\Development\Dev\Src\HeynsLibrary.Web\obj\Debug\HeynsLibrary.Web.dll
+c:\projects\heynslibrary\Development\Dev\Src\HeynsLibrary.Web\obj\Debug\HeynsLibrary.Web.pdb

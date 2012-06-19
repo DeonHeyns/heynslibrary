@@ -1,0 +1,7 @@
+c:\projects\heynslibrary\Development\Dev\Src\HeynsLibrary.ServiceModel\bin\Debug\HeynsLibrary.ServiceModel.dll
+c:\projects\heynslibrary\Development\Dev\Src\HeynsLibrary.ServiceModel\bin\Debug\HeynsLibrary.ServiceModel.pdb
+c:\projects\heynslibrary\Development\Dev\Src\HeynsLibrary.ServiceModel\bin\Debug\HeynsLibrary.dll
+c:\projects\heynslibrary\Development\Dev\Src\HeynsLibrary.ServiceModel\bin\Debug\HeynsLibrary.pdb
+c:\projects\heynslibrary\Development\Dev\Src\HeynsLibrary.ServiceModel\obj\Debug\HeynsLibrary.ServiceModel.csprojResolveAssemblyReference.cache
+c:\projects\heynslibrary\Development\Dev\Src\HeynsLibrary.ServiceModel\obj\Debug\HeynsLibrary.ServiceModel.dll
+c:\projects\heynslibrary\Development\Dev\Src\HeynsLibrary.ServiceModel\obj\Debug\HeynsLibrary.ServiceModel.pdb
