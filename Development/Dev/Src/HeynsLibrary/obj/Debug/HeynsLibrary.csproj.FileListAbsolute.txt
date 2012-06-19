@@ -1,5 +1,0 @@
-c:\projects\heynslibrary\Development\Dev\Src\HeynsLibrary\bin\Debug\HeynsLibrary.dll
-c:\projects\heynslibrary\Development\Dev\Src\HeynsLibrary\bin\Debug\HeynsLibrary.pdb
-c:\projects\heynslibrary\Development\Dev\Src\HeynsLibrary\obj\Debug\HeynsLibrary.csprojResolveAssemblyReference.cache
-c:\projects\heynslibrary\Development\Dev\Src\HeynsLibrary\obj\Debug\HeynsLibrary.dll
-c:\projects\heynslibrary\Development\Dev\Src\HeynsLibrary\obj\Debug\HeynsLibrary.pdb
