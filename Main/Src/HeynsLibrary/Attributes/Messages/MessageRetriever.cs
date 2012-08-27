@@ -6,15 +6,15 @@ namespace HeynsLibrary.Attributes.Messages
     public class MessageRetriever
     {
         public static IEnumerable<KeyValuePair<string, string>>
-            GetMessages(object typeWithMessage)
+            GetMessages(BaseMessageAttribute typeWithMessage)
         {
             var classLevelAttributes = typeWithMessage
                 .GetType()
                 .GetCustomAttributes(true)
                 .Where(x => x is BaseMessageAttribute);
 
-            if (classLevelAttributes.Count() > 0)
-                foreach (dynamic attribute in classLevelAttributes)
+            if (classLevelAttributes.Any())
+                foreach (BaseMessageAttribute attribute in classLevelAttributes)
                 {
                     yield return 
                         new KeyValuePair<string, string>
@@ -28,10 +28,10 @@ namespace HeynsLibrary.Attributes.Messages
                     .GetCustomAttributes(true)
                     .Where(x => x is BaseMessageAttribute);
 
-                if (attributes.ToList().Count <= 0)
+                if (!attributes.Any())
                     continue;
 
-                foreach (dynamic attribute in attributes)
+                foreach (BaseMessageAttribute attribute in attributes)
                 {
                     yield return 
                         new KeyValuePair<string, string>
