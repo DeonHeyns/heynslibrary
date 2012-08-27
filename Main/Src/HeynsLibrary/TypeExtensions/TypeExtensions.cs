@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Xml.Serialization;
 
 namespace HeynsLibrary
@@ -13,8 +12,13 @@ namespace HeynsLibrary
 
         public static bool HasInterface<T>(this Type type)
         {
-            var @interface = type.GetInterface(typeof(T).FullName, true);
-            return @interface != null;
+            var fullName = typeof (T).FullName;
+            if (fullName != null)
+            {
+                var @interface = type.GetInterface(fullName, true);
+                return @interface != null;
+            }
+            return false;
         }
 
         public static bool CanSerialize(this Type type)

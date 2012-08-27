@@ -44,11 +44,8 @@
     <AssemblyOriginatorKeyFile>..\HeynsLibrary.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
@@ -69,6 +66,7 @@
     <Compile Include="Collections\SerializableDictionary.cs" />
     <Compile Include="Compression\Compressor.cs" />
     <Compile Include="Cryptography\Cryptography.cs" />
+    <Compile Include="DateTimeExtensions\DateTimeExtensions.cs" />
     <Compile Include="Entities\BaseEntity.cs" />
     <Compile Include="Configuration\PortalConfiguration.cs" />
     <Compile Include="Configuration\PortalConfigurationCollection.cs" />

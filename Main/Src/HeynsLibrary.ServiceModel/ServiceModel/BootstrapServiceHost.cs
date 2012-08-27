@@ -20,12 +20,7 @@ namespace HeynsLibrary.ServiceModel
         private List<IBootstrapTask> _bootStrapTasks { get; set; }
         public List<IBootstrapTask> BootStrapTasks
         {
-            get
-            {
-                if (this._bootStrapTasks == null)
-                    this._bootStrapTasks = new List<IBootstrapTask>();
-                return this._bootStrapTasks;
-            }
+            get { return this._bootStrapTasks ?? (this._bootStrapTasks = new List<IBootstrapTask>()); }
             set
             {
                 this._bootStrapTasks = value;
@@ -34,12 +29,7 @@ namespace HeynsLibrary.ServiceModel
 
         public ILogger Logger
         {
-            get
-            {
-                if (_logger == null)
-                    _logger = new TraceSource("BootStrapServiceHost Logger");
-                return _logger;
-            }
+            get { return _logger ?? (_logger = new TraceSource("BootStrapServiceHost Logger")); }
         }
 
         protected override void InitializeRuntime()
@@ -59,16 +49,14 @@ namespace HeynsLibrary.ServiceModel
 
         private void ExecuteTasks()
         {
-            if (this.BootStrapTasks.Count > 0)
+            if (this.BootStrapTasks.Count <= 0) return;
+            foreach (var task in this.BootStrapTasks)
             {
-                foreach (IBootstrapTask task in this.BootStrapTasks)
-                {
-                    this.Logger.Write(Logging.Contracts.Logging.EventType.Information, 50, 
-                        "Task: {0} Begin Execute at: {1}", task.GetType().FullName, DateTime.Now);
-                    task.Execute();
-                    this.Logger.Write(Logging.Contracts.Logging.EventType.Information, 60, 
-                        "Task: {0} Ended Execute at: {1}", task.GetType().FullName, DateTime.Now);
-                }
+                this.Logger.Write(Logging.Contracts.Logging.EventType.Information, 50, 
+                                  "Task: {0} Begin Execute at: {1}", task.GetType().FullName, DateTime.Now);
+                task.Execute();
+                this.Logger.Write(Logging.Contracts.Logging.EventType.Information, 60, 
+                                  "Task: {0} Ended Execute at: {1}", task.GetType().FullName, DateTime.Now);
             }
         }
 
@@ -78,10 +66,9 @@ namespace HeynsLibrary.ServiceModel
             if (bootstrapTaskSettings == null)
                 return;
             var tasks = bootstrapTaskSettings.BootstrapTasks.OfType<BootstrapTaskConfigurationElement>().ToList();
-            foreach (var task in tasks)
+            foreach (var task in tasks.Where(task => task.type.HasInterface<IBootstrapTask>()))
             {
-                if (task.type.HasInterface<IBootstrapTask>())
-                    this.BootStrapTasks.Add(task.type.GenerateInstance<IBootstrapTask>());
+                this.BootStrapTasks.Add(task.type.GenerateInstance<IBootstrapTask>());
             }
         }
     }

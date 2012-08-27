@@ -18,7 +18,7 @@ namespace HeynsLibrary.Serialization
 
         public static async Task<string> XmlSerializeAsync<T>(T obj)
         {
-            CheckNullArgument<T>(obj);
+            CheckNullArgument(obj);
             if (!typeof(T).CanSerialize())
             {
                 throw new ArgumentException(
@@ -65,18 +65,18 @@ namespace HeynsLibrary.Serialization
 
         public static byte[] BinarySerialize<T>(T obj)
         {
-            CheckNullArgument<T>(obj);
+            CheckNullArgument(obj);
             if (!typeof(T).CanSerialize())
             {
                 throw new ArgumentException(
                    string.Format("{0} is not a Serializable type.", typeof(T).Name));
             }
-            return Serialize<T>(obj, new BinaryFormatter());
+            return Serialize(obj, new BinaryFormatter());
         }
 
         public static T BinaryDeserialize<T>(byte[] binary)
         {
-            T obj = default(T);
+            T obj;
             using (var ms = new MemoryStream(binary))
             {
                 obj = Deserialize<T>(new BinaryFormatter(), ms);
@@ -86,20 +86,20 @@ namespace HeynsLibrary.Serialization
 
         public static string SoapSerialize<T>(T obj)
         {
-            CheckNullArgument<T>(obj);
+            CheckNullArgument(obj);
             if (!typeof(T).CanSerialize())
             {
                 throw new ArgumentException(
                    string.Format("{0} is not a Serializable type.", typeof(T).Name));
             }
-            var bytes = Serialize<T>(obj, new SoapFormatter());
+            var bytes = Serialize(obj, new SoapFormatter());
             var soap = Encoding.UTF8.GetString(bytes);
             return soap;
         }
 
         public static T SoapDeserialize<T>(string soapEnvelope)
         {
-            T obj = default(T);
+            T obj;
             using (var ms = new MemoryStream())
             {
                 using (var stream = new StreamWriter(ms))
@@ -113,13 +113,13 @@ namespace HeynsLibrary.Serialization
 
         public static string DataContractSerilize<T>(T obj)
         {
-            CheckNullArgument<T>(obj);
+            CheckNullArgument(obj);
             if (!typeof(T).CanSerialize())
             {
                 throw new ArgumentException(
                    string.Format("{0} is not a Serializable type.", typeof(T).Name));
             }
-            string xml = string.Empty;
+            string xml;
             var dcs = new DataContractSerializer(typeof(T));
             using (var ms = new MemoryStream())
             {
@@ -144,8 +144,7 @@ namespace HeynsLibrary.Serialization
         
         private static void CheckNullArgument<T>(T obj)
         {
-            if (obj == null)
-                throw new ArgumentNullException("obj");
+            if (ReferenceEquals(obj, null)) throw new ArgumentNullException("obj");
         }
 
         private static byte[] Serialize<T>(T serializeType, IFormatter formatter)
@@ -164,7 +163,7 @@ namespace HeynsLibrary.Serialization
 
         private static T Deserialize<T>(IFormatter formatter, Stream stream)
         {
-            T obj = (T)formatter.Deserialize(stream);
+            var obj = (T)formatter.Deserialize(stream);
             return obj;
         }
     }

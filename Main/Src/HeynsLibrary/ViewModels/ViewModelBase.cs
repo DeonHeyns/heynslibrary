@@ -20,13 +20,11 @@ namespace HeynsLibrary.ViewModels
 
         public virtual void OnPropertyChanged<T>(ref T field, T value, string propertyName)
         {
-            if (!EqualityComparer<T>.Default.Equals(field, value))
-            {
-                field = value;
-                var handler = PropertyChanged;
-                if (handler != null)
-                    handler(this, new PropertyChangedEventArgs(propertyName));
-            }
+            if (EqualityComparer<T>.Default.Equals(field, value)) return;
+            field = value;
+            var handler = PropertyChanged;
+            if (handler != null)
+                handler(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion INotifyPropertyChanged Members
     }

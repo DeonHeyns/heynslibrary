@@ -9,7 +9,8 @@ namespace HeynsLibrary.Web
         /// Parses the encrypted URL for this key in the parameters
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="encyprypedKey"></param>
+        /// <param name="request"> </param>
+        /// <param name="unencryptedKey"> </param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
         public static T Params<T>(this HttpRequest request, string unencryptedKey, T defaultValue)
@@ -28,7 +29,7 @@ namespace HeynsLibrary.Web
         /// <returns></returns>
         public static T Params<T>(this HttpRequest request, string unencryptedKey)
         {
-            return request.Params<T>(unencryptedKey, default(T));
+            return request.Params(unencryptedKey, default(T));
         }
 
     }

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace HeynsLibrary
@@ -35,11 +37,7 @@ namespace HeynsLibrary
         /// <returns></returns>
         public static string TimestampToString(this byte[] binary)
         {
-            string result = "";
-            foreach (byte b in binary)
-            {
-                result += b.ToString() + "|";
-            }
+            var result = binary.Aggregate(string.Empty, (current, b) => current + (b.ToString(CultureInfo.InvariantCulture) + "|"));
             result = result.Substring(0, result.Length - 1);
             return result;
         }
@@ -51,9 +49,9 @@ namespace HeynsLibrary
         /// <returns>byte[]</returns>
         public static byte[] StringToTimestamp(this string value)
         {
-            string[] arr = value.Split('|');
-            byte[] bytes = new byte[arr.Length];
-            for (int i = 0; i < arr.Length; i++)
+            var arr = value.Split('|');
+            var bytes = new byte[arr.Length];
+            for (var i = 0; i < arr.Length; i++)
             {
                 bytes[i] = Convert.ToByte(arr[i]);
             }
@@ -65,7 +63,7 @@ namespace HeynsLibrary
         /// </summary>
         /// <param name="value">The string to encrypt.</param>
         /// <returns></returns>
-        public static string ToMD5Hash(this string value)
+        public static string ToMd5Hash(this string value)
         {
             return Cryptography.Cryptography.CreateMD5Hash(value);
         }
@@ -77,8 +75,8 @@ namespace HeynsLibrary
         /// <returns>bool</returns>
         public static bool HasUniqueLetters(this string word)
         {
-            int validator = 0;
-            for (int i = 0; i < word.Length; i++)
+            var validator = 0;
+            for (var i = 0; i < word.Length; i++)
             {
                 int val = word.ToCharArray()[i];
                 if ((validator & (1 << val)) > 0) return false;
@@ -98,21 +96,19 @@ namespace HeynsLibrary
             if (word.Length < 2)
                 throw new ArgumentOutOfRangeException("word");
 
-            int tail = 1;
-            for (int i = 0; i < word.Length; i++)
+            var tail = 1;
+            for (var i = 0; i < word.Length; i++)
             {
-                int j = 0;
+                var j = 0;
                 for (; j < tail; j++)
                     if (word.ToCharArray()[i] == word.ToCharArray()[j])
                     {
                         word.ToCharArray()[i] = ' ';
                         break;
                     }
-                if (j == tail)
-                {
-                    word.ToCharArray()[tail] = word.ToCharArray()[i];
-                    ++tail;
-                }
+                if (j != tail) continue;
+                word.ToCharArray()[tail] = word.ToCharArray()[i];
+                ++tail;
             }
         }
 
@@ -124,15 +120,11 @@ namespace HeynsLibrary
         public static Dictionary<string, int> GetWordCount(this string[] words)
         {
             var wordsWithCount = new Dictionary<string, int>();
-            foreach (string word in words)
+            foreach (var wordLowered in words.Select(word => word.ToLowerInvariant()).Where(wordLowered => !string.IsNullOrWhiteSpace(wordLowered.Trim())))
             {
-                var wordLowered = word.ToLowerInvariant();
-                if (!string.IsNullOrWhiteSpace(wordLowered.Trim()))
-                {
-                    if (!wordsWithCount.ContainsKey(wordLowered))
-                        wordsWithCount.Add(wordLowered, 0);
-                    wordsWithCount.Add(wordLowered, wordsWithCount[wordLowered] + 1);
-                }
+                if (!wordsWithCount.ContainsKey(wordLowered))
+                    wordsWithCount.Add(wordLowered, 0);
+                wordsWithCount.Add(wordLowered, wordsWithCount[wordLowered] + 1);
             }
             return wordsWithCount;
         }
@@ -148,11 +140,7 @@ namespace HeynsLibrary
             if (words == null || string.IsNullOrWhiteSpace(word))
                 return -1;
             var wordsWithCount = words.GetWordCount();
-            if (wordsWithCount.ContainsKey(word))
-            {
-                return wordsWithCount[word];
-            }
-            return 0;
+            return wordsWithCount.ContainsKey(word) ? wordsWithCount[word] : 0;
         }
 
         /// <summary>
@@ -165,19 +153,18 @@ namespace HeynsLibrary
         /// <returns></returns>
         public static int ShortestDistanceBetweenWords(this string[] words, string firstWord, string secondWord, bool orderMatters = false)
         {
-            int pos = 0;
-            int min = int.MaxValue / 2;
-            int firstWordPos = -min;
-            int secondWordPos = -min;
-            for (int i = 0; i < words.Length; i++)
+            var pos = 0;
+            var min = int.MaxValue / 2;
+            var firstWordPos = -min;
+            var secondWordPos = -min;
+            foreach (var currentWord in words)
             {
-                string currentWord = words[i];
                 if (currentWord.Equals(firstWord))
                 {
                     firstWordPos = pos;
                     if (orderMatters)
                     {
-                        int distance = firstWordPos - secondWordPos;
+                        var distance = firstWordPos - secondWordPos;
                         if (min > distance)
                             min = distance;
                     }
@@ -185,7 +172,7 @@ namespace HeynsLibrary
                 else if (currentWord.Equals(secondWord))
                 {
                     secondWordPos = pos;
-                    int distance = secondWordPos - firstWordPos;
+                    var distance = secondWordPos - firstWordPos;
                     if (min > distance) min = distance;
                 }
                 ++pos;
@@ -243,6 +230,11 @@ namespace HeynsLibrary
             value = value.Trim().ToLowerInvariant();
             value = (!value.StartsWith("https")) ? string.Format("https://{0}", value) : value;
             return value;
+        }
+
+        public static bool CompareOrdinalIgnoreCase(this string actual, string comparer)
+        {
+            return string.Compare(actual, comparer, StringComparison.OrdinalIgnoreCase) == 0;
         }
     }
 }
