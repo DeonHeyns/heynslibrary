@@ -24,7 +24,7 @@ namespace HeynsLibrary.Serialization
                 throw new ArgumentException(
                    string.Format("{0} is not a Serializable type.", typeof(T).Name));
             }
-            string xml = string.Empty;
+            var xml = string.Empty;
             var xs = new XmlSerializer(typeof(T));
             
             await Task.Factory.StartNew(() =>

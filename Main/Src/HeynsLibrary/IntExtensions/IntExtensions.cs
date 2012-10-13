@@ -13,8 +13,8 @@ namespace HeynsLibrary
         /// <returns></returns>
         public static string ConvertIntToEnglishWord(this int num)
         {
-            StringBuilder sb = new StringBuilder();
-            int len = 1;
+            var sb = new StringBuilder();
+            var len = 1;
             while (Math.Pow((double)10, (double)len) < num)
             {
                 len++;
@@ -118,8 +118,8 @@ namespace HeynsLibrary
         public static int AddWithoutUsingAddOperator(this int a, int b)
         {
             if (b == 0) return a;
-            int sum = a ^ b; // an Add without carrying
-            int carry = (a & b) << 1; // Carry, but we don’t add
+            var sum = a ^ b; // an Add without carrying
+            var carry = (a & b) << 1; // Carry, but we don’t add
             return AddWithoutUsingAddOperator(sum, carry); // Recursive call
         }
     }
