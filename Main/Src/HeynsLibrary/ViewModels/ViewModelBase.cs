@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 namespace HeynsLibrary.ViewModels
 {
+    // ViewModel used to handle navigation and INotifyPropertyChanged
     public abstract class ViewModelBase : INotifyPropertyChanged
     {
         public INavigationWorkflow NavigationWorkflow { get; set; }
